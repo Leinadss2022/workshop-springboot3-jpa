@@ -3,8 +3,11 @@ package com.projetospring.portifolio.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.projetospring.portifolio.entities.pk.OrderItemPK;
 
+import jakarta.persistence.Access;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -16,8 +19,9 @@ import jakarta.persistence.Table;
 public class OrderItem implements Serializable {
 	private static final Long serialVersionUID = 1L; 
 	 
-		@EmbeddedId
-		private OrderItemPK id;
+	@EmbeddedId
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	private OrderItemPK id = new OrderItemPK();
 		
 		
 		private Integer quantity;
@@ -36,7 +40,7 @@ public class OrderItem implements Serializable {
 			this.quantity = quantity;
 			this.price = price;
 		}
-		
+		@JsonIgnore
 		public Order getOrder() {
 			return id.getOrder();
 		}
